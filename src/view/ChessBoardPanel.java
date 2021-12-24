@@ -5,6 +5,7 @@ import model.ChessPiece;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class ChessBoardPanel extends JPanel {
     private final int CHESS_COUNT = 8;
@@ -74,8 +75,48 @@ public class ChessBoardPanel extends JPanel {
 //        }
 //    }
 
+    public void update(int ini_x,int ini_y,int color){
+        board[ini_x][ini_y]=color;
+        int[] flipDir = new int[dir.length];
+        for (int i = 0; i <dir.length ; i++) {
+            int row = dir[i][0];
+            int col = dir[i][1];
+            int x = row + ini_x;
+            int y = col + ini_y;
+            if ((x >= 0 && x <= 7) && (y >= 0 && y <= 7) && board[x][y] != 0 && board[x][y] != color) {
+                while ((x >= 0 && x <= 7) && (y >= 0 && y <= 7)) {
+                    if (board[x][y] == color) {
+                        flipDir[i]++;
+                    } else if (board[x][y] == 0) {
+                        break;
+                    }
+                    x += row;
+                    y += col;
+                }
+            }
+        }
+        for (int i = 0; i < flipDir.length; i++) {
+            if(flipDir[i]!=0){
+                int row = dir[i][0];
+                int col = dir[i][1];
+                int x = row + ini_x;
+                int y = col + ini_y;
+                while(true){
+                    if(board[x][y]==color){
+                        break;
+                    }else{
+                        board[x][y] = -board[x][y];
+                        //todo: update color
+                        chessGrids[x][y].flip();
+                        System.out.printf("%d %d\n",x,y);
 
-
+                    }
+                    x += row;
+                    y += col;
+                }
+            }
+        }
+    }
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -84,7 +125,6 @@ public class ChessBoardPanel extends JPanel {
     }
 
     public boolean canClickGrid(int ini_x, int ini_y, ChessPiece currentPlayer) {
-        //todo: complete this method
         int color = currentPlayer==ChessPiece.BLACK?BLACK:WHITE;
         for (int i = 0; i < 8; i++) {
             int row = dir[i][0];

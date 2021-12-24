@@ -80,4 +80,8 @@ public class GameController {
     public boolean canClick(int row, int col) {
         return gamePanel.canClickGrid(row, col, currentPlayer);
     }
+
+    public void updateBoard(int ini_x,int ini_y,int color){
+        gamePanel.update(ini_x,ini_y,color);
+    }
 }
