@@ -32,6 +32,8 @@ public class ChessGridComponent extends BasicComponent {
                 GameFrame.controller.swapPlayer();
             }
             repaint();
+        }else{
+            System.out.println("cannot put chess");
         }
     }
 

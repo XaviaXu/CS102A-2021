@@ -8,7 +8,13 @@ import java.awt.*;
 
 public class ChessBoardPanel extends JPanel {
     private final int CHESS_COUNT = 8;
+    private final int BLACK = 1;
+    private final int WHITE = -1;
     private ChessGridComponent[][] chessGrids;
+    private int[][] board;
+    private static int[][] dir = {
+            {0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}
+    };
 
     public ChessBoardPanel(int width, int height) {
         this.setVisible(true);
@@ -49,11 +55,25 @@ public class ChessBoardPanel extends JPanel {
      * initial origin four chess
      */
     public void initialGame() {
+        board = new int[CHESS_COUNT][CHESS_COUNT];
         chessGrids[3][3].setChessPiece(ChessPiece.BLACK);
+        board[3][3] = BLACK;
         chessGrids[3][4].setChessPiece(ChessPiece.WHITE);
+        board[3][4] = WHITE;
         chessGrids[4][3].setChessPiece(ChessPiece.WHITE);
+        board[4][3] = WHITE;
         chessGrids[4][4].setChessPiece(ChessPiece.BLACK);
+        board[4][4] = BLACK;
     }
+    
+//    public void restart(){
+//        for (int i = 0; i < CHESS_COUNT; i++) {
+//            for (int j = 0; j < CHESS_COUNT; j++) {
+//                chessGrids[i][j].clearChess();
+//            }
+//        }
+//    }
+
 
 
     @Override
@@ -63,8 +83,27 @@ public class ChessBoardPanel extends JPanel {
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
     }
 
-    public boolean canClickGrid(int row, int col, ChessPiece currentPlayer) {
+    public boolean canClickGrid(int ini_x, int ini_y, ChessPiece currentPlayer) {
         //todo: complete this method
-        return true;
+        int color = currentPlayer==ChessPiece.BLACK?BLACK:WHITE;
+        for (int i = 0; i < 8; i++) {
+            int row = dir[i][0];
+            int col = dir[i][1];
+            int x = row + ini_x;
+            int y = col + ini_y;
+            if ((x >= 0 && x <= 7) && (y >= 0 && y <= 7) && board[x][y] != 0 && board[x][y] != color) {
+                while ((x >= 0 && x <= 7) && (y >= 0 && y <= 7)) {
+                    if (board[x][y] == color) {
+                        return true;
+                    } else if (board[x][y] == 0) {
+                        break;
+                    }
+                    x += row;
+                    y += col;
+                }
+            }
+
+        }
+        return false;
     }
 }
