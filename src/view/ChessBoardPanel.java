@@ -141,10 +141,7 @@ public class ChessBoardPanel extends JPanel {
                         break;
                     }else{
                         board[x][y] = -board[x][y];
-                        //todo: update color
                         chessGrids[x][y].flip();
-                        System.out.printf("%d %d\n",x,y);
-
                     }
                     x += row;
                     y += col;

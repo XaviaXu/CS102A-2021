@@ -10,11 +10,12 @@ import java.util.List;
 
 
 public class GameController {
-
+    private GameFrame frame;
 
     private ChessBoardPanel gamePanel;
     private StatusPanel statusPanel;
     private ChessPiece currentPlayer;
+
     private int blackScore;
     private int whiteScore;
     private boolean isCheating = false;
@@ -22,7 +23,7 @@ public class GameController {
     private final int BLACK = 1;
     private final int WHITE = -1;
 
-
+    public void setFrame(GameFrame frame){this.frame = frame;}
 
     public GameController(ChessBoardPanel gamePanel, StatusPanel statusPanel) {
         this.gamePanel = gamePanel;
@@ -53,11 +54,23 @@ public class GameController {
         ChessPiece next = (currentPlayer == ChessPiece.BLACK) ? ChessPiece.WHITE : ChessPiece.BLACK;
         //todo: check swapping
         if(canSwap(next)){
+            //swap player
             currentPlayer = next;
+        }else if(canSwap(currentPlayer)){
+            //cannot swap & current cannot move
+            if(blackScore>whiteScore){
+                frame.gameOver("BLACK wins!");
+            }else if(blackScore==whiteScore){
+                frame.gameOver("NO winner");
+            }else{
+                frame.gameOver("WHITE wins!");
+            }
+
         }
         statusPanel.setPlayerText(currentPlayer.name());
         statusPanel.setScoreText(blackScore, whiteScore);
     }
+
 
     public boolean canSwap(ChessPiece next){
          return gamePanel.canMove(next);
@@ -68,7 +81,6 @@ public class GameController {
         whiteScore = gamePanel.getScore(WHITE);
     }
 
-
     public ChessPiece getCurrentPlayer() {
         return currentPlayer;
     }
@@ -77,11 +89,9 @@ public class GameController {
         return gamePanel;
     }
 
-
     public void setGamePanel(ChessBoardPanel gamePanel) {
         this.gamePanel = gamePanel;
     }
-
 
     public void readFileData(String fileName) {
 

@@ -30,6 +30,7 @@ public class GameFrame extends JFrame {
         statusPanel.setLocation((this.getWidth() - chessBoardPanel.getWidth()) / 2, 0);
         controller = new GameController(chessBoardPanel, statusPanel);
         controller.setGamePanel(chessBoardPanel);
+        controller.setFrame(this);
 
         this.add(chessBoardPanel);
         this.add(statusPanel);
@@ -69,5 +70,10 @@ public class GameFrame extends JFrame {
         this.setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+    }
+
+    public void gameOver(String winner){
+        String msg = String.format("Game over, %s",winner);
+        JOptionPane.showMessageDialog(this,msg);
     }
 }
