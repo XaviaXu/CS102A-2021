@@ -51,14 +51,33 @@ public class GameController {
     }
 
     public void swapPlayer() {
-        countScore();
+        updateScore();
         ChessPiece next = (currentPlayer == ChessPiece.BLACK) ? ChessPiece.WHITE : ChessPiece.BLACK;
         //todo: check swapping
         if(canSwap(next)){
             //swap player
             currentPlayer = next;
-        }else if(canSwap(currentPlayer)){
-            //cannot swap & current cannot move
+        }
+        checkFinished();
+        statusPanel.setPlayerText(currentPlayer.name());
+
+    }
+
+    public void updateScore(){
+        countScore();
+        statusPanel.setScoreText(blackScore, whiteScore);
+    }
+
+    public void continueGame(){
+        if(!gamePanel.canMove(currentPlayer)){
+            swapPlayer();
+        }
+    }
+
+    public void checkFinished(){
+        ChessPiece next = (currentPlayer == ChessPiece.BLACK) ? ChessPiece.WHITE : ChessPiece.BLACK;
+        if(!canSwap(next)&&(!canSwap(currentPlayer))){
+            //finished
             if(blackScore>whiteScore){
                 frame.gameOver("BLACK wins!");
             }else if(blackScore==whiteScore){
@@ -66,12 +85,9 @@ public class GameController {
             }else{
                 frame.gameOver("WHITE wins!");
             }
-
         }
-        statusPanel.setPlayerText(currentPlayer.name());
-        statusPanel.setScoreText(blackScore, whiteScore);
-    }
 
+    }
 
     public boolean canSwap(ChessPiece next){
          return gamePanel.canMove(next);
@@ -95,7 +111,6 @@ public class GameController {
     }
 
     public void readFileData(String fileName) {
-
         List<String> fileData = new ArrayList<>();
         try {
             FileReader fileReader = new FileReader(fileName);
@@ -140,5 +155,17 @@ public class GameController {
 
     public void updateBoard(int ini_x,int ini_y,int color){
         gamePanel.flipChess(ini_x,ini_y,color);
+    }
+
+    public boolean getCheating(){return this.isCheating;}
+
+    public void changeCheatingStatus(){
+        this.isCheating = !this.isCheating;
+        statusPanel.setCheatLable(this.isCheating);
+    }
+
+    public void setPlayer(ChessPiece cp){
+        this.currentPlayer  = cp;
+        statusPanel.setPlayerText(currentPlayer.name());
     }
 }

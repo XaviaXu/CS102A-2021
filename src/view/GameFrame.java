@@ -2,6 +2,7 @@ package view;
 
 
 import controller.GameController;
+import model.ChessPiece;
 
 import javax.swing.*;
 import java.awt.*;
@@ -54,6 +55,8 @@ public class GameFrame extends JFrame {
             System.out.println("clicked Load Btn");
             String filePath = JOptionPane.showInputDialog(this, "input the path here");
             controller.readFileData(filePath);
+            controller.checkFinished();
+            controller.continueGame();
         });
 
         JButton saveGameBtn = new JButton("Save");
@@ -73,20 +76,30 @@ public class GameFrame extends JFrame {
         cheatBtn.addActionListener(e -> {
             System.out.println("press cheating");
             String[] col = {"BLACK","WHITE"};
-            int rep = JOptionPane.showOptionDialog(
-                    null,
-                    "make your choice",
-                    "Try GUI",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.PLAIN_MESSAGE,
-                    null,
-                    col,
-                    col[0]);
-            if(rep==0){
-                System.out.println("choosing black");
+            if(!controller.getCheating()){
+                int rep = JOptionPane.showOptionDialog(
+                        null,
+                        "select color",
+                        "Cheating mode on",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        col,
+                        col[0]);
+                if(rep==0){
+                    System.out.println("choosing black");
+                    controller.setPlayer(ChessPiece.BLACK);
+                }else{
+                    System.out.println("choosing white");
+                    controller.setPlayer(ChessPiece.WHITE);
+                }
             }else{
-                System.out.println("choosing white");
+                JOptionPane.showMessageDialog(this,"cheating mode off");
+                //todo: check moves
+                controller.checkFinished();
+                controller.continueGame();
             }
+            controller.changeCheatingStatus();
         });
 
 

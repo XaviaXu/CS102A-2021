@@ -42,16 +42,26 @@ public class ChessGridComponent extends BasicComponent {
     public void onMouseClicked() {
         System.out.printf("%s clicked (%d, %d)\n", GameFrame.controller.getCurrentPlayer(), row, col);
         //todo: complete mouse click method
-        if (GameFrame.controller.canClick(row, col)) {
+        if(GameFrame.controller.getCheating()){
+            //cheating on
+            if(this.chessPiece==null){
+                this.chessPiece = GameFrame.controller.getCurrentPlayer();
+                GameFrame.controller.updateBoard(row,col,GameFrame.controller.getCurrentPlayer()==ChessPiece.BLACK?1:-1);
+                GameFrame.controller.updateScore();
+            }
+            repaint();
+            GameFrame.controller.checkFinished();
+        }
+        else if (GameFrame.controller.canClick(row, col)) {
             if (this.chessPiece == null) {
                 this.chessPiece = GameFrame.controller.getCurrentPlayer();
+                repaint();
                 //todo: change color
                 GameFrame.controller.updateBoard(row,col,GameFrame.controller.getCurrentPlayer()==ChessPiece.BLACK?1:-1);
                 GameFrame.controller.swapPlayer();
             }else{
                 //undo?
             }
-            repaint();
         }else{
             System.out.println("cannot put chess");
         }
