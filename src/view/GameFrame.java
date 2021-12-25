@@ -41,8 +41,8 @@ public class GameFrame extends JFrame {
         add(restartBtn);
         restartBtn.addActionListener(e -> {
             // todo: restart
-            chessBoardPanel.initialChessGrids();
-            chessBoardPanel.initialGame();
+            chessBoardPanel.restart();
+            controller.init();
             System.out.println("click restart Btn");
         });
 

@@ -67,13 +67,14 @@ public class ChessBoardPanel extends JPanel {
         board[4][4] = BLACK;
     }
     
-//    public void restart(){
-//        for (int i = 0; i < CHESS_COUNT; i++) {
-//            for (int j = 0; j < CHESS_COUNT; j++) {
-//                chessGrids[i][j].clearChess();
-//            }
-//        }
-//    }
+    public void restart(){
+        for (int i = 0; i < CHESS_COUNT; i++) {
+            for (int j = 0; j < CHESS_COUNT; j++) {
+                chessGrids[i][j].clearChess();
+            }
+        }
+        initialGame();
+    }
 
     public void update(int ini_x,int ini_y,int color){
         board[ini_x][ini_y]=color;

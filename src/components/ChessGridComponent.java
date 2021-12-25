@@ -25,6 +25,7 @@ public class ChessGridComponent extends BasicComponent {
         this.chessPiece = null;
         repaint();
     }
+
     public void flip(){
         if(this.chessPiece!=null){
             this.chessPiece = GameFrame.controller.getCurrentPlayer();
@@ -39,15 +40,11 @@ public class ChessGridComponent extends BasicComponent {
         if (GameFrame.controller.canClick(row, col)) {
             if (this.chessPiece == null) {
                 this.chessPiece = GameFrame.controller.getCurrentPlayer();
-
                 //todo: change color
                 GameFrame.controller.updateBoard(row,col,GameFrame.controller.getCurrentPlayer()==ChessPiece.BLACK?1:-1);
-
                 GameFrame.controller.swapPlayer();
-
-
             }else{
-
+                //undo?
             }
             repaint();
         }else{

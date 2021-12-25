@@ -29,16 +29,25 @@ public class GameController {
         whiteScore = 2;
     }
 
+    public void init(){
+        this.currentPlayer = ChessPiece.BLACK;
+        blackScore = 2;
+        whiteScore = 2;
+        countScore();
+        statusPanel.setPlayerText(currentPlayer.name());
+        statusPanel.setScoreText(blackScore, whiteScore);
+    }
+
     public void swapPlayer() {
         countScore();
         currentPlayer = (currentPlayer == ChessPiece.BLACK) ? ChessPiece.WHITE : ChessPiece.BLACK;
+        //todo: check swapping
         statusPanel.setPlayerText(currentPlayer.name());
         statusPanel.setScoreText(blackScore, whiteScore);
     }
 
 
     public void countScore() {
-        //todo: modify the countScore method
         blackScore = gamePanel.getScore(BLACK);
         whiteScore = gamePanel.getScore(WHITE);
     }
