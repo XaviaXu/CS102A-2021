@@ -40,7 +40,6 @@ public class GameFrame extends JFrame {
         restartBtn.setLocation((this.getWidth() - chessBoardPanel.getWidth()) / 2, (this.getHeight() + chessBoardPanel.getHeight()) / 2);
         add(restartBtn);
         restartBtn.addActionListener(e -> {
-            // todo: restart
             chessBoardPanel.restart();
             controller.init();
             System.out.println("click restart Btn");

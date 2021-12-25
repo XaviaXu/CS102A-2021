@@ -3,6 +3,7 @@ package controller;
 import model.ChessPiece;
 import view.*;
 
+import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +17,11 @@ public class GameController {
     private ChessPiece currentPlayer;
     private int blackScore;
     private int whiteScore;
+    private boolean isCheating = false;
 
     private final int BLACK = 1;
     private final int WHITE = -1;
+
 
 
     public GameController(ChessBoardPanel gamePanel, StatusPanel statusPanel) {
@@ -45,7 +48,6 @@ public class GameController {
         statusPanel.setPlayerText(currentPlayer.name());
         statusPanel.setScoreText(blackScore, whiteScore);
     }
-
 
     public void countScore() {
         blackScore = gamePanel.getScore(BLACK);
@@ -84,7 +86,18 @@ public class GameController {
     }
 
     public void writeDataToFile(String fileName) {
-        //todo: write data into file
+        try {
+            File file = new File(fileName);
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+                    new FileOutputStream(file)));
+            writer.write(gamePanel.saveBoard());
+            int col = currentPlayer==ChessPiece.BLACK?BLACK:WHITE;
+            writer.write(Integer.toString(col));
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean canClick(int row, int col) {
@@ -92,6 +105,6 @@ public class GameController {
     }
 
     public void updateBoard(int ini_x,int ini_y,int color){
-        gamePanel.update(ini_x,ini_y,color);
+        gamePanel.flipChess(ini_x,ini_y,color);
     }
 }

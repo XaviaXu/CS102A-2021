@@ -76,7 +76,18 @@ public class ChessBoardPanel extends JPanel {
         initialGame();
     }
 
-    public void update(int ini_x,int ini_y,int color){
+    public String saveBoard(){
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < CHESS_COUNT; i++) {
+            for (int j = 0; j < CHESS_COUNT; j++) {
+                sb.append(board[i][j]).append(" ");
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
+    public void flipChess(int ini_x, int ini_y, int color){
         board[ini_x][ini_y]=color;
         int[] flipDir = new int[dir.length];
         for (int i = 0; i <dir.length ; i++) {
