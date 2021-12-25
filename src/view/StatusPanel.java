@@ -8,6 +8,7 @@ import java.awt.*;
 public class StatusPanel extends JPanel {
     private JLabel playerLabel;
     private JLabel scoreLabel;
+    private JLabel cheatLable;
 
     public StatusPanel(int width, int height) {
         this.setSize(width, height);
@@ -28,6 +29,13 @@ public class StatusPanel extends JPanel {
         this.setScoreText(2,2);
         add(scoreLabel);
 
+        this.cheatLable = new JLabel();
+        this.cheatLable.setLocation((int)(width * 0.75),10);
+        this.cheatLable.setSize((int)(width*0.4),height);
+        this.cheatLable.setFont(new Font("Calibri", Font.ITALIC, 15));
+        this.setCheatLable(false);
+        add(cheatLable);
+
     }
 
     public void setScoreText(int black, int white) {
@@ -37,5 +45,8 @@ public class StatusPanel extends JPanel {
     public void setPlayerText(String playerText) {
         this.playerLabel.setText(playerText + "'s turn");
     }
-    
+
+    public void setCheatLable(boolean isCheating){
+        this.cheatLable.setText("Cheating: "+isCheating);
+    }
 }

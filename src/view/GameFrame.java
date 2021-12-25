@@ -66,6 +66,14 @@ public class GameFrame extends JFrame {
             controller.writeDataToFile(filePath);
         });
 
+        JButton cheatBtn = new JButton("Cheating");
+        cheatBtn.setSize(120, 50);
+        cheatBtn.setLocation(saveGameBtn.getX()+restartBtn.getWidth()+30,restartBtn.getY());
+        add(cheatBtn);
+        cheatBtn.addActionListener(e -> {
+            System.out.println("press cheating");
+        });
+
 
         this.setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

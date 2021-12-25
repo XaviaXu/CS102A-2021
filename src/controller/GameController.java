@@ -40,6 +40,7 @@ public class GameController {
         countScore();
         statusPanel.setPlayerText(currentPlayer.name());
         statusPanel.setScoreText(blackScore, whiteScore);
+        this.isCheating = false;
     }
 
     public void loadStatus(String data){
