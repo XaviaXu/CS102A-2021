@@ -21,8 +21,13 @@ public class ChessGridComponent extends BasicComponent {
         this.row = row;
         this.col = col;
     }
+
     public void clearChess(){
         this.chessPiece = null;
+        repaint();
+    }
+    public void setColor(ChessPiece piece){
+        this.chessPiece = piece;
         repaint();
     }
 

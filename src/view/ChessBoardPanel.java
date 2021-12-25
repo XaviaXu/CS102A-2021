@@ -3,14 +3,17 @@ package view;
 import components.ChessGridComponent;
 import model.ChessPiece;
 
+import javax.imageio.metadata.IIOMetadataFormatImpl;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ChessBoardPanel extends JPanel {
     private final int CHESS_COUNT = 8;
     private final int BLACK = 1;
     private final int WHITE = -1;
+    private final String delimeter=" ";
     private ChessGridComponent[][] chessGrids;
     private int[][] board;
     private static int[][] dir = {
@@ -85,6 +88,26 @@ public class ChessBoardPanel extends JPanel {
             sb.append("\n");
         }
         return sb.toString();
+    }
+
+    public void loadBoard(String data, int line){
+        String[] temp = data.split(delimeter);
+        for (int i = 0; i < CHESS_COUNT; i++) {
+            board[line][i] = Integer.parseInt(temp[i]);
+        }
+        if(line==CHESS_COUNT-1){
+            for (int i = 0; i < CHESS_COUNT; i++) {
+                for (int j = 0; j < CHESS_COUNT; j++) {
+                    if(board[i][j]==0){
+                        chessGrids[i][j].clearChess();
+                    }else if(board[i][j]==BLACK){
+                        chessGrids[i][j].setColor(ChessPiece.BLACK);
+                    }else{
+                        chessGrids[i][j].setColor(ChessPiece.WHITE);
+                    }
+                }
+            }
+        }
     }
 
     public void flipChess(int ini_x, int ini_y, int color){

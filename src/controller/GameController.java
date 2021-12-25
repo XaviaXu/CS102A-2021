@@ -41,6 +41,13 @@ public class GameController {
         statusPanel.setScoreText(blackScore, whiteScore);
     }
 
+    public void loadStatus(String data){
+        int player = Integer.parseInt(data);
+        this.currentPlayer = player==BLACK?ChessPiece.BLACK:ChessPiece.WHITE;
+        statusPanel.setPlayerText(currentPlayer.name());
+        statusPanel.setScoreText(blackScore, whiteScore);
+    }
+
     public void swapPlayer() {
         countScore();
         currentPlayer = (currentPlayer == ChessPiece.BLACK) ? ChessPiece.WHITE : ChessPiece.BLACK;
@@ -70,7 +77,7 @@ public class GameController {
 
 
     public void readFileData(String fileName) {
-        //todo: read date from file
+
         List<String> fileData = new ArrayList<>();
         try {
             FileReader fileReader = new FileReader(fileName);
@@ -79,7 +86,16 @@ public class GameController {
             while ((line = bufferedReader.readLine()) != null) {
                 fileData.add(line);
             }
+            //todo: read date from file
             fileData.forEach(System.out::println);
+            for (int i = 0; i <fileData.size() ; i++) {
+                if(i<8){
+                    //board status
+                    gamePanel.loadBoard(fileData.get(i),i);
+                }else{
+                    loadStatus(fileData.get(i));
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
