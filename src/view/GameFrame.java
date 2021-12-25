@@ -72,6 +72,21 @@ public class GameFrame extends JFrame {
         add(cheatBtn);
         cheatBtn.addActionListener(e -> {
             System.out.println("press cheating");
+            String[] col = {"BLACK","WHITE"};
+            int rep = JOptionPane.showOptionDialog(
+                    null,
+                    "make your choice",
+                    "Try GUI",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    col,
+                    col[0]);
+            if(rep==0){
+                System.out.println("choosing black");
+            }else{
+                System.out.println("choosing white");
+            }
         });
 
 
