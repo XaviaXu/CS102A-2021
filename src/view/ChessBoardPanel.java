@@ -152,6 +152,17 @@ public class ChessBoardPanel extends JPanel {
             }
         }
     }
+
+    public boolean canMove(ChessPiece player){
+        for (int i = 0; i < CHESS_COUNT; i++) {
+            for (int j = 0; j < CHESS_COUNT; j++) {
+                if(board[i][j]==0&&canClickGrid(i,j,player)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

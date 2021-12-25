@@ -50,10 +50,17 @@ public class GameController {
 
     public void swapPlayer() {
         countScore();
-        currentPlayer = (currentPlayer == ChessPiece.BLACK) ? ChessPiece.WHITE : ChessPiece.BLACK;
+        ChessPiece next = (currentPlayer == ChessPiece.BLACK) ? ChessPiece.WHITE : ChessPiece.BLACK;
         //todo: check swapping
+        if(canSwap(next)){
+            currentPlayer = next;
+        }
         statusPanel.setPlayerText(currentPlayer.name());
         statusPanel.setScoreText(blackScore, whiteScore);
+    }
+
+    public boolean canSwap(ChessPiece next){
+         return gamePanel.canMove(next);
     }
 
     public void countScore() {
