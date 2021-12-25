@@ -17,6 +17,10 @@ public class GameController {
     private int blackScore;
     private int whiteScore;
 
+    private final int BLACK = 1;
+    private final int WHITE = -1;
+
+
     public GameController(ChessBoardPanel gamePanel, StatusPanel statusPanel) {
         this.gamePanel = gamePanel;
         this.statusPanel = statusPanel;
@@ -35,11 +39,8 @@ public class GameController {
 
     public void countScore() {
         //todo: modify the countScore method
-        if (currentPlayer == ChessPiece.BLACK) {
-            blackScore++;
-        } else {
-            whiteScore++;
-        }
+        blackScore = gamePanel.getScore(BLACK);
+        whiteScore = gamePanel.getScore(WHITE);
     }
 
 

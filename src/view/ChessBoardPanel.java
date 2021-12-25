@@ -146,4 +146,16 @@ public class ChessBoardPanel extends JPanel {
         }
         return false;
     }
+
+    public int getScore(int color){
+        int cnt = 0;
+        for (int i = 0; i < CHESS_COUNT ; i++) {
+            for (int j = 0; j < CHESS_COUNT; j++) {
+                if(board[i][j]==color){
+                    cnt++;
+                }
+            }
+        }
+        return cnt;
+    }
 }
