@@ -112,4 +112,22 @@ public class GameFrame extends JFrame {
         String msg = String.format("Game over, %s",winner);
         JOptionPane.showMessageDialog(this,msg);
     }
+
+    public void gameError(int code){
+        String msg;
+        if(code==101){
+            msg = "Error type 101: board size error.";
+        }else if(code==102){
+            msg = "Error type 102: chess type error.";
+        }else if(code == 103){
+            msg = "Error type 103: current player unknown.";
+        }else if(code == 104){
+            msg = "Error type 104: file type error.";
+        }else if(code == 105){
+            msg = "Error type 105: move invalid.";
+        }else {
+            msg = "Error type 106: other errors.";
+        }
+        JOptionPane.showMessageDialog(this,msg);
+    }
 }

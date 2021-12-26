@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChessBoardPanel extends JPanel {
-    private final int CHESS_COUNT = 8;
+    public static final int CHESS_COUNT = 8;
     private final int BLACK = 1;
     private final int WHITE = -1;
     private final String delimeter=" ";
@@ -90,7 +90,7 @@ public class ChessBoardPanel extends JPanel {
         return sb.toString();
     }
 
-    public void loadBoard(String data, int line){
+    public boolean loadBoard(String data, int line){
         String[] temp = data.split(delimeter);
         for (int i = 0; i < CHESS_COUNT; i++) {
             board[line][i] = Integer.parseInt(temp[i]);
@@ -102,12 +102,15 @@ public class ChessBoardPanel extends JPanel {
                         chessGrids[i][j].clearChess();
                     }else if(board[i][j]==BLACK){
                         chessGrids[i][j].setColor(ChessPiece.BLACK);
-                    }else{
+                    }else if(board[i][j]==WHITE){
                         chessGrids[i][j].setColor(ChessPiece.WHITE);
+                    }else{
+                        return false;
                     }
                 }
             }
         }
+        return true;
     }
 
     public void flipChess(int ini_x, int ini_y, int color){

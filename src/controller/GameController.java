@@ -23,6 +23,10 @@ public class GameController {
     private final int BLACK = 1;
     private final int WHITE = -1;
 
+    private final int CHEAT_ON = 2;
+    private final int CHEAT_OFF = -2;
+
+
     public void setFrame(GameFrame frame){this.frame = frame;}
 
     public GameController(ChessBoardPanel gamePanel, StatusPanel statusPanel) {
@@ -44,9 +48,34 @@ public class GameController {
     }
 
     public void loadStatus(String data){
-        int player = Integer.parseInt(data);
+        String[] temp = data.split(" ");
+        if(temp.length==0){
+            frame.gameError(103);
+            return;
+        }else if(temp.length==1){
+            int player = Integer.parseInt(temp[0]);
+            if(player!=BLACK&&player!=WHITE){
+                frame.gameError(103);
+                return;
+            }
+            frame.gameError(105);
+            return;
+        }
+        int player = Integer.parseInt(temp[0]);
+        int cheating = Integer.parseInt(temp[1]);
+        if(player!=BLACK&&player!=WHITE){
+            frame.gameError(103);
+            return;
+        }
+        if(cheating!=CHEAT_OFF&&cheating!=CHEAT_ON){
+            frame.gameError(105);
+            return;
+        }
+
         this.currentPlayer = player==BLACK?ChessPiece.BLACK:ChessPiece.WHITE;
+        this.isCheating = cheating == CHEAT_ON;
         statusPanel.setPlayerText(currentPlayer.name());
+        statusPanel.setCheatLable(isCheating);
         statusPanel.setScoreText(blackScore, whiteScore);
     }
 
@@ -112,6 +141,10 @@ public class GameController {
 
     public void readFileData(String fileName) {
         List<String> fileData = new ArrayList<>();
+        if(!fileName.endsWith(".txt")){
+            frame.gameError(104);
+            return;
+        }
         try {
             FileReader fileReader = new FileReader(fileName);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -119,18 +152,29 @@ public class GameController {
             while ((line = bufferedReader.readLine()) != null) {
                 fileData.add(line);
             }
-            //todo: read date from file
+
             fileData.forEach(System.out::println);
             for (int i = 0; i <fileData.size() ; i++) {
-                if(i<8){
+                if(i==0){
+                    int size = Integer.parseInt(fileData.get(i));
+                    if(size!=ChessBoardPanel.CHESS_COUNT){
+                        frame.gameError(101);
+                        return;
+                    }
+                }
+                else if(i<=8){
                     //board status
-                    gamePanel.loadBoard(fileData.get(i),i);
-                }else{
+                    if(!gamePanel.loadBoard(fileData.get(i),i-1)){
+                        frame.gameError(102);
+                        return;
+                    }
+                }
+                else{
                     loadStatus(fileData.get(i));
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            frame.gameError(106);
         }
     }
 
@@ -139,13 +183,15 @@ public class GameController {
             File file = new File(fileName);
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
                     new FileOutputStream(file)));
+            writer.write(String.format("%d\n",ChessBoardPanel.CHESS_COUNT));
             writer.write(gamePanel.saveBoard());
-            int col = currentPlayer==ChessPiece.BLACK?BLACK:WHITE;
-            writer.write(Integer.toString(col));
+            int player = currentPlayer==ChessPiece.BLACK?BLACK:WHITE;
+            int flag = isCheating?CHEAT_ON:CHEAT_OFF;
+            writer.write(String.format("%d %d",player,flag));
             writer.close();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            frame.gameError(106);
         }
     }
 
